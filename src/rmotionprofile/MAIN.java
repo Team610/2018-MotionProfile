@@ -13,7 +13,6 @@ public class MAIN {
         sWaypoints.add(new Waypoint(180,90,0,60));
 	
 	System.out.println(new MotionPather().generatePath(sWaypoints));
-//        new MotionPather().generatePath(sWaypoints);
     }
 
 }
