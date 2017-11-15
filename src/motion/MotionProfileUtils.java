@@ -11,10 +11,10 @@ public class MotionProfileUtils {
      * @return double[] of 6 values, distance To Accelerate, Acceleration Amount, distance To Coast, coasting Velocity, distance To Decelerate, amount of Decceleration
      */
     public static double[] findLineSegmentVels(double vInitial, double vFinal, double dist) {
-	double vCoast = getCoastVelocity(vInitial, vFinal, dist);
+	double vCoast = MotionConstants.MAX_VELOCITY;//getCoastVelocity(vInitial, vFinal, dist);
 	double distAcc = (vCoast * vCoast - vInitial * vInitial) / (2 * MotionConstants.MAX_ACCELERATION);
 	double distDec = (vCoast * vCoast - vFinal * vFinal) / (2 * MotionConstants.MAX_DECCELERATION);
-	double distCoast = dist - distAcc - distDec;
+	double distCoast = dist - (distAcc + distDec);
 	return new double[] { distAcc, MotionConstants.MAX_ACCELERATION, distCoast, vCoast, distDec,
 		MotionConstants.MAX_DECCELERATION };
     }
@@ -36,19 +36,19 @@ public class MotionProfileUtils {
     }
 
     public static boolean doneLineAcc(double distAcc, double encL, double encR) {
-	return distAcc <= (encL + encR) / 2;
+	return (encL + encR) / 2 >= distAcc;
     }
 
     public static boolean doneLineCoast(double distCoast, double encL, double encR) {
-	return distCoast <= (encL + encR) / 2;
+	return (encL + encR) / 2 >= distCoast;
     }
 
     public static boolean doneLineDec(double distDec, double encL, double encR) {
-	return distDec <= (encL + encR) / 2;
+	return (encL + encR) / 2 >= distDec;
     }
 
     public static boolean doneMoveCircle(double arcLength, double encL, double encR) {
-	return arcLength <= (encL + encR) / 2;
+	return (encL + encR) / 2 >= arcLength;
     }
 
     /**
@@ -60,9 +60,24 @@ public class MotionProfileUtils {
     public static double[] findCircleVel(double vRobot, double rad) {
 	double vOut = vRobot * (rad + MotionConstants.ROBOT_WIDTH / 2) / rad;
 	double vIn = vRobot * (rad - MotionConstants.ROBOT_WIDTH / 2) / rad;
-	return new double[] { vIn, vOut };
+	return scaleTo(MotionConstants.MAX_VELOCITY, vOut, vIn);
     }
 
+    private static double[] scaleTo(double max, double... n){
+	//Get max value from parameter Array
+	double maxN = Double.MIN_VALUE;
+	for(double i : n){
+	    maxN = i > maxN ? i : maxN;
+	}
+	//Find scalar to normalize values to the max
+	double scalar = max / maxN;
+	double[] nArr = n;
+	for(int i = 0; i < n.length; i++){
+	    nArr[i] *= scalar;
+	}
+	return nArr;
+    }
+    
     /**
      * 
      * @param start - starting Point of the arc
@@ -74,7 +89,7 @@ public class MotionProfileUtils {
 	double rad = start.distance(center);
 	double circ = 2 * Math.PI * rad;
 	double ang1 = Math.atan2(center.y - start.y, center.x - start.x);
-	double ang2 = Math.atan2(center.y - end.y, center.x - end.y);
+	double ang2 = Math.atan2(center.y - end.y, center.x - end.x);
 
 	return circ * Math.abs(ang1 - ang2) / (2 * Math.PI);
     }

@@ -20,6 +20,8 @@ public class DriveTrain extends Subsystem {
 	
 	leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B);
 	rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
+	leftEnc.setDistancePerPulse(4 * Math.PI / 128.0);
+	rightEnc.setDistancePerPulse(4 * Math.PI / 128.0);
     }
 
     public static DriveTrain getInstance() {
@@ -60,11 +62,13 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setRight(double power) {
+	power *= -1;
 	rightFront.set(power);
 	rightBack.set(power);
     }
 
     public void setLeft(double power) {
+	power *= -1;
 	leftFront.set(power);
 	leftBack.set(power);
     }
