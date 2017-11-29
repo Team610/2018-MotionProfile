@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Path {
 
-    List<PathSegment> segments;
+    public List<PathSegment> segments;
 
     public Path() {
 	segments = new ArrayList<PathSegment>();

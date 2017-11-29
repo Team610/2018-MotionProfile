@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousPeriodic() {
-	autoPath.followPath();	 
+	autoPath.followPath(1);	 
     }
 
     @Override

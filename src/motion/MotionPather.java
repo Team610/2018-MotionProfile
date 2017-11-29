@@ -17,8 +17,8 @@ public class MotionPather {
 		i++;
 	    } while (i < w.size() - 2);
 
-	    List<Integer> ind = new ArrayList<>();
-	    List<PathSegment> segs = new ArrayList<>();
+	    List<Integer> ind = new ArrayList<Integer>();
+	    List<PathSegment> segs = new ArrayList<PathSegment>();
 
 	    int j = p.getSegments().size() - 1;
 	    do {
@@ -56,7 +56,7 @@ public class MotionPather {
     }
 
     private static List<PathSegment> removeDupes(List<PathSegment> w) {
-	List<Integer> ind = new ArrayList<>();
+	List<Integer> ind = new ArrayList<Integer>();
 	for (int i = 0; i < w.size(); i++) {
 	    if (w.get(i).posEqual())
 		ind.add(i);

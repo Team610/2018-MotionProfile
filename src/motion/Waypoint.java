@@ -2,7 +2,7 @@ package motion;
 
 public class Waypoint {
 
-    Point position;
+    public Point position;
     double radius;
     double speed;
     String marker;
