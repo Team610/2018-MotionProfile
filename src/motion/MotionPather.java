@@ -7,6 +7,8 @@ public class MotionPather {
 
     public Path generatePath(List<Waypoint> w) {
 	Path p = new Path();
+	Waypoint lastWP = w.get(w.size()-1);
+	w.add(lastWP);
 	if (w.size() < 2)
 	    throw new Error("Path must contain at least 2 waypoints");
 	int i = 0;
@@ -64,6 +66,22 @@ public class MotionPather {
 	for (int i = ind.size() - 1; i >= 0; i--) {
 	    w.remove((int) ind.get(i));
 	}
+		ind = new ArrayList<Integer>();
+	for(int i = 0; i < w.size(); i++){
+		PathSegment ps = w.get(i);
+		if(Double.isNaN(ps.start.x) ||
+				Double.isNaN(ps.start.y) ||
+				Double.isNaN(ps.end.x) ||
+				Double.isNaN(ps.end.y)){
+			ind.add(i);
+		}
+		if(ps.center != null && (Double.isNaN(ps.center.x) || Double.isNaN(ps.center.y))){
+			if(!ind.contains(i)) ind.add(i);
+		}
+	}
+		for (int i = ind.size() - 1; i >= 0; i--) {
+			w.remove((int) ind.get(i));
+		}
 	return w;
     }
 

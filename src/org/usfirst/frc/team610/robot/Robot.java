@@ -32,11 +32,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 	drive = DriveTrain.getInstance();
 	ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
-	sWaypoints.add(new Waypoint(10, 0, 0, 60));
-	sWaypoints.add(new Waypoint(25, 25, 10, 60));
-	sWaypoints.add(new Waypoint(30, -10, 10, 60));
-	sWaypoints.add(new Waypoint(0, 0, 2, 60));
-//	sWaypoints.add(new Waypoint(75, 120, 0, 0));
+	sWaypoints.add(new Waypoint(0, 0, 0, 60));
+	sWaypoints.add(new Waypoint(50, 0, 50, 60));
+	sWaypoints.add(new Waypoint(150, 150, 0, 60));
 	MotionPather mp = new MotionPather();
 	autoPath = new PathFollower(mp.generatePath(sWaypoints));
     }
@@ -76,7 +74,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousPeriodic() {
-	double[] speeds = autoPath.followPath(1);
+	double[] speeds = autoPath.followPath(0.5);
 	drive.setLeft(speeds[0]);
 	drive.setRight(speeds[1]);
     }

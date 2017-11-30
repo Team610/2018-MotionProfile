@@ -9,7 +9,7 @@ public class MotionConstants {
     public final static double Kv = 1/MAX_VELOCITY;
     public final static double Ka = 1/MAX_ACCELERATION;
     public final static double Kd = 1/MAX_DECCELERATION;
-    public final static double ROBOT_WIDTH = 30;
+    public final static double ROBOT_WIDTH = 28.0;
     
 }
 

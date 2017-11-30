@@ -81,7 +81,6 @@ public class PathFollower {
 
 				double sign = Xab*Yap-Xap*Yab;
 
-//				((p.x - a.x)*(b.y - a.y)-(p.y - a.y)*(b.x-a.x)
 				if(sign > 0) {
 					leftSpeed = MotionConstants.Kv * motionData[1];
 					rightSpeed = MotionConstants.Kv * motionData[0];
